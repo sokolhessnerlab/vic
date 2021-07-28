@@ -132,33 +132,33 @@ cumearningsbeta = as.list(fixef(model_earnings_Expectations));
 earnCoef = cumearningsbeta$cumEarningsSC01
 expCoef = cumearningsbeta$linExpectation
 
-# plot a couple of subs' earnings and pgamble over the task as a function of earnings and trial
+# plot a couple of subs' earnings and pgamble over the task as a function of earnings and expectations
 sub1 = vicDataB[vicDataB$subjectIndex==20,];
-PgamSub1EarnTrial =1/(1+exp(-1*( (expCoef*sub1$linExpectation) + (earnCoef*sub1$cumEarningsSC01) )));
+PgamSub1EarnExp =1/(1+exp(-1*( (expCoef*sub1$linExpectation) + (earnCoef*sub1$cumEarningsSC01) )));
 
 sub2 = vicDataB[vicDataB$subjectIndex==22,];
-PgamSub2EarnTrial =1/(1+exp(-1*( (expCoef*sub2$linExpectation) + (earnCoef*sub2$cumEarningsSC01) )))
+PgamSub2EarnExp =1/(1+exp(-1*( (expCoef*sub2$linExpectation) + (earnCoef*sub2$cumEarningsSC01) )))
 
 sub3 = vicDataB[vicDataB$subjectIndex==34,];
-PgamSub3EarnTrial =1/(1+exp(-1*( (expCoef*sub3$linExpectation) + (earnCoef*sub3$cumEarningsSC01) )))
+PgamSub3EarnExp =1/(1+exp(-1*( (expCoef*sub3$linExpectation) + (earnCoef*sub3$cumEarningsSC01) )))
 
 sub4 = vicDataB[vicDataB$subjectIndex==13,];
-PgamSub4EarnTrial =1/(1+exp(-1*( (expCoef*sub4$linExpectation) + (earnCoef*sub4$cumEarningsSC01) )))
+PgamSub4EarnExp =1/(1+exp(-1*( (expCoef*sub4$linExpectation) + (earnCoef*sub4$cumEarningsSC01) )))
 
 sub5 = vicDataB[vicDataB$subjectIndex==29,];
-PgamSub5EarnTrial =1/(1+exp(-1*( (expCoef*sub5$linExpectation) + (earnCoef*sub5$cumEarningsSC01) )))
+PgamSub5EarnExp =1/(1+exp(-1*( (expCoef*sub5$linExpectation) + (earnCoef*sub5$cumEarningsSC01) )))
 
 sub6 = vicDataB[vicDataB$subjectIndex==62,];
-PgamSub6EarnTrial =1/(1+exp(-1*( (expCoef*sub6$linExpectation) + (earnCoef*sub6$cumEarningsSC01) )))
+PgamSub6EarnExp =1/(1+exp(-1*( (expCoef*sub6$linExpectation) + (earnCoef*sub6$cumEarningsSC01) )))
 
 pdf("/Volumes/shlab/Projects/VIC/data analysis/figures/PGAMearnings_expectation.pdf")
-plot(PgamSub1EarnTrial, type="l", col="darkgreen", lwd=3, ylim=c(.4,.6), ylab="p(gamble)", xlab="trial", main="risk taking as a function\n of earnings and expectations", axes=F, cex.lab=1, xlim=c(1,240))
+plot(PgamSub1EarnExp, type="l", col="darkgreen", lwd=3, ylim=c(.4,.6), ylab="p(gamble)", xlab="trial", main="risk taking as a function\n of earnings and expectations", axes=F, cex.lab=1, xlim=c(1,240))
 abline(a=.5, b=0, lty="dashed", col="darkgrey", lwd=2)
-lines(PgamSub2EarnTrial, col="darkred", lwd=3);
-lines(PgamSub3EarnTrial, col="darkblue", lwd=3);
-lines(PgamSub4EarnTrial, col="darkorange", lwd=3);
-lines(PgamSub5EarnTrial, col="goldenrod", lwd=3);
-lines(PgamSub6EarnTrial, col="red", lwd=3);
+lines(PgamSub2EarnExp, col="darkred", lwd=3);
+lines(PgamSub3EarnExp, col="darkblue", lwd=3);
+lines(PgamSub4EarnExp, col="darkorange", lwd=3);
+lines(PgamSub5EarnExp, col="goldenrod", lwd=3);
+lines(PgamSub6EarnExp, col="red", lwd=3);
 
 legend("bottomright", legend=c("sub 20", "sub 34" , "sub 62","sub 22","sub 13", "sub 29"), lty = 1, lwd=3, bty="n", col=c("darkgreen","darkblue",  "red", "darkred","darkorange","goldenrod"), cex=1.25)
 axis(1, at=c(1,120,240),tick =T, cex.axis = 1.25, cex=2, lwd = 4)
@@ -203,7 +203,7 @@ model_earnings = glmer(choice ~ 0 + pastOC1sc + shiftDiffscPOS + cumEarningsSC01
 
 # We assume above that expectations are linear but it is possible they are not linear. let's see if there is any indication of nonlinear expectations (using the level tracking variable - calling it piecewise linear. This variable is normalized by OVERALL max level tracking)
 
-# These models are included in the supplement:
+# These models are included in the supplement text:
 model_levelTrackingLinExp = glmer(choice ~ pastOC1sc + shiftDiffscPOS + cumEarningsSC01+levelTrackingNormOverall + linExpectation+  (1 | subjectIndex),data = vicDataB, family = 'binomial', offset = pred);
 
 
@@ -224,14 +224,14 @@ model_levelTracking = glmer(choice ~ pastOC1sc + shiftDiffscPOS + cumEarningsSC0
 #  pastOC1sc                -0.24989    0.08809  -2.837  0.00456 ** 
 #  shiftDiffscPOS            5.22186    1.04122   5.015  5.3e-07 ***
 #  cumEarningsSC01           1.09399    0.68266   1.603  0.10904    
-# levelTrackingNormOverall -0.74967    0.69376  -1.081  0.27988    
+#  levelTrackingNormOverall -0.74967    0.69376  -1.081  0.27988    
 # AIC =  13990.9 - which is an improvement in AIC over the model with earnings and expectation AIC = 13991.3
 # hmm, no effect of earnings or level tracking
 # Note: looking for nonlinear effects using glmer is not a great approach because its a linear regression but its unclear how to mathematically account for the difference between earnings and expectations because here they are both weighted differently so we can't just take the difference (how do we then decide the weight for each variable?). 
 
 
 # MODEL 4B: Cumulative earnings interaction with past otc?
-model_cumearningspastOutcomeinterxn = glmer(choice ~ 0 + shiftDiffscPOS + pastOC1sc*cumEarningsSC01 + linExpectation + (1 | subjectIndex),data = vicDataB, family = 'binomial', offset = pred)
+model_cumearningspastOutcomeinterxn = glmer(choice ~ 0 + shiftDiffscPOS + pastOC1sc*cumEarningsSC01 +  linExpectation + (1 | subjectIndex),data = vicDataB, family = 'binomial', offset = pred)
 
 #                               Estimate Std. Error z value Pr(>|z|)
 #   shiftDiffscPOS              5.2581     1.0118   5.197 2.03e-07 ***
@@ -239,7 +239,7 @@ model_cumearningspastOutcomeinterxn = glmer(choice ~ 0 + shiftDiffscPOS + pastOC
 #   cumEarningsSC01             0.3780     0.2889   1.309    0.191    
 #   linExpectation             -0.2582     0.2164  -1.193    0.233    
 #   pastOC1sc:cumEarningsSC01   1.2627     0.2921   4.323 1.54e-05 ***
-#   AIC = 13974.6 (AIC slightly larger than model w/o trial) - using this in manuscript 
+#   AIC = 13974.6 (AIC slightly larger than this model w/o lin expectation AIC = 13974.0) 
 
 
 
@@ -274,7 +274,7 @@ model_SCRshiftDiffAbs= lmer(maxNorm ~ 1 + shiftDiffscABs + (1|subjectIndex), dat
  
 
 # MODEL 5C - do cumulative earnings predict SCRs following outcomes?
-model_SCRcumearningsTrial <- lmer(maxNorm ~ 1 + linExpectation +cumEarningsSC01 + (1|subjectIndex), data=vicBscrResp, REML =F);
+model_SCRcumearningsLinExp <- lmer(maxNorm ~ 1 + linExpectation +cumEarningsSC01 + (1|subjectIndex), data=vicBscrResp, REML =F);
 
 # Fixed effects: 
 #                     Estimate Std. Error         df t value Pr(>|t|) 
