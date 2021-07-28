@@ -1,11 +1,14 @@
-# Data cleaning and analysis scripts for Brooks & Sokol-Hessner (in prep)
+## Data cleaning and analysis scripts for Brooks & Sokol-Hessner (in prep)
 
-# Part 1: New data collection 
+### Part 1: New data collection 
   - Gambling task using novel choice set design with SCR (following outcomes and during decision phase)
-# Part 2: Reanalysis of Sokol-Hessner et al (2015) dataset
+### Part 2: Reanalysis of Sokol-Hessner et al (2015) dataset
   - Gambling task with propranolol/placebo  
 
 
+
+#
+### This Github repo uses Start Your Lab's template:
 
 <!--
 **** README for the R Project Template repository
