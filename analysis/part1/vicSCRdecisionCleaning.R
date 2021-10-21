@@ -1,5 +1,5 @@
 # VIC SCR ANALYSIS - scrs during decision phase
-# HR 7/5/20 - updated 11/2/20 
+# HRB 7/5/20 - updated 11/2/20 
 
 rm(list=ls());
 
