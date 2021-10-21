@@ -1,5 +1,5 @@
 # VIC SCR data analysis
-# HR 02/9/20 
+# HRB 02/9/20 
 # outcome is the onset marker and SCRs are .5 seconds after onset to 4.5 after outcome onset
 # anything over .02 microsiemens is set to 0
 # SCR scored using matlab script procGSR_vic.m
