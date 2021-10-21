@@ -1,7 +1,7 @@
 # VIC (value in context) data analysis 
 # importing, subsetting data and simple stats
 # this script also runs model 1 (trial level) and save predicted values to dataset
-# 03/01/18 HR
+# 03/01/18 HRB
 # updated 7/22/21 
 # N = 62
 rm(list = ls()); #clear global environment
