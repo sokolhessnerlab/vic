@@ -282,9 +282,9 @@ moreEarnGam= 1/(1+exp(-1*(pocBeta*poc + earnBeta*earnings[3]+ potcEarnBeta*earni
 
 pdf("/Volumes/shlab/Projects/PDM/code/figures/manuscript_PDM_fig3f_pocEarnES.pdf")
 par(mar=c(5,6,6,3));#change margin so ylab is not cut off
-plot(lessEarnGam, type="l", ylim = c(0,1),axes = FALSE, xaxt="n", ann=F, lwd = 2, cex.lab=1, col="salmon2")
-lines(equalEarnGam, lwd=2, col="salmon3")
-lines(moreEarnGam, lwd=2, col ="salmon4")
+plot(lessEarnGam, type="l", ylim = c(0,1),axes = FALSE, xaxt="n", ann=F, lwd = 6, cex.lab=1, col="black", lty="twodash")
+lines(equalEarnGam, lwd=6, col="gray33", lty="dashed")
+lines(moreEarnGam, lwd=6, col ="gray60", lty="dotted")
 title(ylab = "p(gamble)", line = 3.75, cex.lab=1.35, cex=2)
 title(xlab = "Past outcome", line = 2.5, cex.lab=1.35, cex=2)
 title(main = sprintf("Risk-taking following earnings & outcome \niteraction: %.2f(%.2f), p=%f", potcEarnBeta ,potcEarnResults$coefficients[8] ,potcEarnResults$coefficients[16]))
