@@ -179,6 +179,28 @@ axis(2, lwd=4)
 dev.off()
 
 
+
+# Lets plot what happens when the coefficients for linear expectation and earnings change (a figure to add to supplement to demonstrate what our methodology for combining expectation and earnings can show us)
+
+earningsSim = vicDataB$cumEarningsSC01[vicDataB$subjectIndex==3] # get earnings from a participant, this participant gambled roughly 50% of the time
+expectationsSim = seq(from=0, to =1, length.out = length(earningsSim)) # linear expectation is just 0 to 1
+simEarnCoef = c(0,.5, .9)  # some earning coefficients
+simExpCoef = c(-.9,-.5, 0) # some expectation coefficients
+
+pgamEarnExpSimulation1 =1/(1+exp(-1*( (simExpCoef[1]*expectationsSim) + (simEarnCoef[1]*earningsSim) ))); # earnBeta = 0, expBeta = -.9
+pgamEarnExpSimulation2 =1/(1+exp(-1*( (simExpCoef[2]*expectationsSim) + (simEarnCoef[2]*earningsSim) ))); # earnBeta and expBeta from model
+pgamEarnExpSimulation3 =1/(1+exp(-1*( (simExpCoef[3]*expectationsSim) + (simEarnCoef[3]*earningsSim) ))); # earnBeta = .9, expBeta = 0
+
+plot(pgamEarnExpSimulation1, type="l", lwd=3, ylim=c(0,1), xlab="trial", ylab="pgamble", col="green", main = "Risk-taking as a function of  expectation\n and earning coefficient combinations" )
+abline(a=.5, b=0, lty="dashed", col="darkgrey", lwd=2)
+lines(pgamEarnExpSimulation2, col="red", lwd =3)
+lines(pgamEarnExpSimulation3, col="blue", lwd =3)
+
+legend("bottomright", legend=c("expectations = 0, earnings = .9", "expectations = -.5, earnings= .5" , "expectations = -.9, earnings = 0"), lty = 1, lwd=3, bty="n", col=c("blue","red",  "green"), cex=1.25, title="Example Beta Estimates")
+
+
+
+
 # comparing linear expectation in model alone with cumulative earnings in model alone 
 model_linExp = glmer(choice ~ 0 + pastOC1sc + shiftDiffscPOS + linExpectation + (1 | subjectIndex),data = vicDataB, family = 'binomial', offset = pred);
 
@@ -399,7 +421,7 @@ axis(1,at = c(1,seq(from =24, to =240, by =24)), label = c(1,seq(from =24, to =2
 axis(2,tick = TRUE,cex.axis=1, lwd=2);
 dev.off();
 
-# Figure 3a: Effect size of past outcome ($15 and $45) - left off here with formatting the figure!
+# Figure 3a: Effect size of past outcome ($15 and $45) 
 pastOutcomeResults = summary(model_pastotc)
 poc = seq(from=0, to = 1, by = .2); # values are scaled here
 vicPOCgam = 1/(1+exp(-1*(fixef(model_pastotc)*poc)))  # from the model where past outcome is alone 
@@ -472,9 +494,9 @@ aboveEarnGam= 1/(1+exp(-1*(pocBeta*poc + earnBeta*earnings[3]+ potcEarnBeta*earn
 
 pdf("/Volumes/shlab/Projects/VIC/data analysis/figures/manuscript_fig3c_offset_pocEarnES.pdf")
 par(mar=c(5,6,6,3));#change margin so ylab is not cut off
-plot(lowEarnGam, type="l", ylim = c(.25,.75),axes = FALSE, xaxt="n", ann=F, lwd = 4, cex.lab=1, col="salmon2")
-lines(equalEarnGam, lwd=4, col="salmon3")
-lines(aboveEarnGam, lwd=4, col ="salmon4")
+plot(lowEarnGam, type="l", ylim = c(.25,.75),axes = FALSE, xaxt="n", ann=F, lwd = 6, cex.lab=1, col="black", lty="twodash")
+lines(equalEarnGam, lwd=6, lty="dashed",col="gray33")
+lines(aboveEarnGam, lwd=6, lty ="dotted",col ="gray60")
 title(ylab = "p(gamble)", line = 3.75, cex.lab=1.35, cex=2)
 title(xlab = "Past outcome", line = 2.5, cex.lab=1.35, cex=2)
 title(main = sprintf("Risk-taking following earnings & outcome \niteraction: %.2f(%.2f), p=%f", potcEarnBeta ,potcEarnResults$coefficients[10] ,potcEarnResults$coefficients[20]))
