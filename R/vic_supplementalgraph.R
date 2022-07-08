@@ -31,13 +31,16 @@ line1 = earnings*.5 - trial_numbers_normalized*.3;
 line2 = earnings*.5 - trial_numbers_normalized*.5;
 line3 = earnings*.5 - trial_numbers_normalized*.7;
 
-plot(trial_numbers, line1, type = 'l', col = 'red', lwd = 2,
+pdf("/Volumes/shlab/Projects/VIC/data analysis/figures/manuscript_figSI_earningExp.pdf")
+plot(trial_numbers, line1, type = 'l', col = 'green', lwd = 2,
      ylim = c(-.2, .2), ylab = 'p(gamble)', xlab = 'Trial Number')
 lines(trial_numbers, line2, col = 'blue', lwd = 2)
-lines(trial_numbers, line3, col = 'green', lwd = 2)
+lines(trial_numbers, line3, col = 'red', lwd = 2)
 abline(h = 0, col = 'black', lty = 'dashed', lwd = 2)
 abline(v = 25, col = 'black', lty = 'dotted')
-points(x = 25, y = line1[25], col = 'red', lwd = 3)
+points(x = 25, y = line1[25], col = 'green', lwd = 3)
 points(x = 25, y = line2[25], col = 'blue', lwd = 3)
-points(x = 25, y = line3[25], col = 'green', lwd = 3)
+points(x = 25, y = line3[25], col = 'red', lwd = 3)
 
+legend("topleft", legend=c("earnings > expectations", "earnings = expectations" , "earnings < expectations"), lty = 1, lwd=3, bty="n", col=c("green","blue",  "red"), cex=1.25)
+dev.off()
