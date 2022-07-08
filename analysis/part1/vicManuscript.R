@@ -180,25 +180,6 @@ dev.off()
 
 
 
-# Lets plot what happens when the coefficients for linear expectation and earnings change (a figure to add to supplement to demonstrate what our methodology for combining expectation and earnings can show us)
-
-earningsSim = vicDataB$cumEarningsSC01[vicDataB$subjectIndex==3] # get earnings from a participant, this participant gambled roughly 50% of the time
-expectationsSim = seq(from=0, to =1, length.out = length(earningsSim)) # linear expectation is just 0 to 1
-simEarnCoef = c(0,.5, .9)  # some earning coefficients
-simExpCoef = c(-.9,-.5, 0) # some expectation coefficients
-
-pgamEarnExpSimulation1 =1/(1+exp(-1*( (simExpCoef[1]*expectationsSim) + (simEarnCoef[1]*earningsSim) ))); # earnBeta = 0, expBeta = -.9
-pgamEarnExpSimulation2 =1/(1+exp(-1*( (simExpCoef[2]*expectationsSim) + (simEarnCoef[2]*earningsSim) ))); # earnBeta and expBeta from model
-pgamEarnExpSimulation3 =1/(1+exp(-1*( (simExpCoef[3]*expectationsSim) + (simEarnCoef[3]*earningsSim) ))); # earnBeta = .9, expBeta = 0
-
-plot(pgamEarnExpSimulation1, type="l", lwd=3, ylim=c(0,1), xlab="trial", ylab="pgamble", col="green", main = "Risk-taking as a function of  expectation\n and earning coefficient combinations" )
-abline(a=.5, b=0, lty="dashed", col="darkgrey", lwd=2)
-lines(pgamEarnExpSimulation2, col="red", lwd =3)
-lines(pgamEarnExpSimulation3, col="blue", lwd =3)
-
-legend("bottomright", legend=c("expectations = 0, earnings = .9", "expectations = -.5, earnings= .5" , "expectations = -.9, earnings = 0"), lty = 1, lwd=3, bty="n", col=c("blue","red",  "green"), cex=1.25, title="Example Beta Estimates")
-
-
 
 
 # comparing linear expectation in model alone with cumulative earnings in model alone 
